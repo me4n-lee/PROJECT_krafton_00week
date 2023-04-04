@@ -1,9 +1,9 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify, flash
+from flask import Flask, render_template, request, redirect, url_for, jsonify, flash, session
 from pymongo import MongoClient
 from bson import ObjectId
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key_here'
+app.secret_key = 'kraftonjungle'
 
 # MongoDB 연결
 client = MongoClient('localhost', 27017)
@@ -42,6 +42,8 @@ def check_login():
 
     # 로그인 정보가 일치하면 home 으로 redirect
     if user:
+        session['user_id'] = user_id
+        session['user_nickname'] = user['nickname']
         flash('로그인 성공!')
         return jsonify({'result': 'success', 'redirect': '/home'})
     # 일치하지 않으면 다시 로그인 페이지로 redirect
@@ -91,7 +93,21 @@ def home():
 
 @app.route('/mypage')
 def mypage():
-    return render_template('mypage.html')
+    # 세션에서 user_id와 user_nickname 가져오기
+    user_id = session.get('user_id')
+    user_nickname = session.get('user_nickname')
+    
+    # 로그인되어 있지 않으면 로그인 페이지로 redirect
+    if not user_id:
+        return redirect(url_for('login'))
+    
+    # 현재 로그인한 사용자가 작성한 글만 조회
+    articles = db.article.find({'user_id': user_id})
+    
+    return render_template('mypage.html', user_id=user_id, user_nickname=user_nickname, articles=articles)
+
+
+
 
 @app.route('/write')
 def write():
@@ -108,8 +124,9 @@ def post_article():
     article={'category':category_receive, 'title': title_receive, 'url':url_receive, 'content':content_receive}
 
     # 3. mongoDB에 데이터를 넣기
-    db.article.insert_one(article)
-
+    result = db.article.insert_one(article)
+    new_id = str(result.inserted_id)
+    db.article.update_one({'_id' : result.inserted_id}, {'$set':{'id':new_id}})
     return jsonify({'result': 'success'})
 
 
@@ -132,9 +149,28 @@ def rewrite():
 def correction():
    return render_template('correction.html')
 
-@app.route('/content')
+@app.route('/api/get_articles', methods=['GET'])
+def get_articles():
+    articles = list(db.article.find())
+    for article in articles:
+        article['_id'] = str(article['_id'])
+    return jsonify({'articles': articles})
+
+@app.route('/content/<article_id>')
+def content_detail(article_id):
+    # article 정보 조회
+    article = db.article.find_one({'id': article_id})
+    
+    # content.html 페이지를 렌더링하고, article 정보 전달
+    return render_template('content.html', article=article)
+
+@app.route('/api/content', methods=['GET', 'POST'])
 def content():
-   return render_template('content.html')
+    id_receive = request.form['id_give']
+    result = db.article.find_one({'id' : id_receive})
+    return jsonify({'result':'success', 'content' : result})
+
+
 
 
 

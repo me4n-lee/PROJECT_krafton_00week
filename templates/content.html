@@ -1,1 +1,46 @@
-This is content!
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Content</title>
+</head>
+<!-- JavaScript -->
+<script src="frontend/js/script.js"></script>
+<!-- JavaScript -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function(){
+        showArticle();
+    });
+    function showArticle(){
+        $.ajax({
+            type: "GET",
+            url:"/api/content",
+            success:function(response){
+                let article = response['content'];
+                let title = article['title']
+                let content = article['content']
+                let category = article['category']
+                let id = article['id']
+                let temp_html = `
+                <div class="content-box">
+                <h1>${title}</h1>
+				<p>${content}</p>
+				<p>${category}</p>
+				<p>${id}</p>
+			</div>`
+                $('#content-section').append(temp_html);
+            }
+        })
+    }
+</script>
+<body>
+	<header>
+
+	</header>
+	<main>
+		<section id="content-section">
+			
+		</section>
+	</main>
+</body>
+</html>

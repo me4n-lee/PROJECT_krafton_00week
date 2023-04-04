@@ -12,23 +12,66 @@
 	<main>
 		<section id="search-section">
 			<h2>Search Content</h2>
-			<div id="search-bar">
+			<div  id="search-bar">
 				<input type="text" placeholder="Search...">
 				<button type="submit">Search</button>
 			</div>
 		</section>
-        <section id="content-section">
-            <h2>Content</h2>
-            {% for article in articles %}
-            <div class="content-box" onclick="location.href='/content/{{ article._id }}'">
-              <h3>{{ article.title }}</h3>
-              <p>{{ article.content }}</p>
-            </div>
-            {% endfor %}
-          </section>
+		<section id="content-section">
+			<h2>Content</h2>
+
+		</section>
+		
+		
         <button type="submit" name="makecontent" onclick="location.href='/write'">글쓰기</button>
 	</main>
 	<!-- JavaScript -->
-	<script src="frontend/js/script.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			// 페이지 로딩 시, Ajax로 /api/get_articles 요청을 보내서 content-section에 아티클을 추가합니다.
+			showArticle();
+		});
+		function showArticle(){
+			$.ajax({
+				type: 'GET',
+				url: '/api/get_articles',
+				success: function(response) {
+					var articles = response['articles'];
+					for (let i = 0; i < articles.length; i++) {
+						makeArticle(articles[i]["title"], articles[i]["content"], articles[i]["url"], articles[i]["category"], articles[i]["id"]);
+					}
+				}
+			});
+		};
+		function makeArticle(title, content, url, category, id){
+			let temp_html = `
+			<div style='background-color:red;'class='content-box' onclick='/content(${id})'>
+				<h3>${title}</h3>
+				<p>${content}</p>
+				<p>${url}</p>
+				<p>${category}</p>
+			</div>
+				`
+			$("#content-section").append(temp_html);
+		}
+		 function content(id){
+		 	$.ajax({
+		 		type: 'POST',
+		 		url: '/api/content',
+		 		data: {'id_give': id},
+		 		success: function(response) {
+		 			if(response['result'] == 'success'){
+		 				alert('연결 완료')
+		 				window.location.reload();
+		 			}
+		 		}
+		 	});
+	
+		 }
+			
+	
+	</script>
+
 </body>
 </html>
