@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>User Page</title>
+	<!-- CSS Stylesheet -->
+	<link rel="stylesheet" type="text/css" href="frontend/css/style.css">
+</head>
+<body>
+	<header>
+		<h1>User Page</h1>
+		<div id="user-info">
+			<img src="user.png" alt="User Image">
+			<div>
+				<h2>Name</h2>
+				<p>Character Name</p>
+				<p>Personal Information</p>
+			</div>
+		</div>
+	</header>
+	<main>
+		<section id="my-posts">
+			<h2>My Posts</h2>
+			<div class="post-box" onclick="location.href='/content'">
+				<h3>Post Title 1</h3>
+				<p>Post summary</p>
+			</div>
+			<div class="post-box" onclick="location.href='/content'">
+				<h3>Post Title 2</h3>
+				<p>Post summary</p>
+			</div>
+		</section>
+		<section id="liked-posts">
+			<h2>Liked Posts</h2>
+			<div class="post-box" onclick="location.href='/content'">
+				<h3>Post Title 3</h3>
+				<p>Post summary (지우기기능)</p>
+			</div>
+			<div class="post-box" onclick="location.href='/content'">
+				<h3>Post Title 4</h3>
+				<p>Post summary (지우기기능)</p>
+			</div>
+		</section>
+	</main>
+	<!-- JavaScript -->
+	<script src="frontend/js/script.js"></script>
+</body>
+</html>
