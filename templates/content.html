@@ -13,8 +13,9 @@
     });
     function showArticle(){
         $.ajax({
-            type: "GET",
+            type: "POST",
             url:"/api/content",
+            data: {"id_give": "{{ article['_id'] }}"},
             success:function(response){
                 let article = response['content'];
                 let title = article['title']
@@ -28,9 +29,9 @@
 				<p>${category}</p>
 				<p>${id}</p>
 			</div>`
-                $('#content-section').append(temp_html);
             }
         })
+        $('#content-section').append(temp_html);
     }
 </script>
 <body>

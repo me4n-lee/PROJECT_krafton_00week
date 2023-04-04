@@ -46,7 +46,7 @@
 		};
 		function makeArticle(title, content, url, category, id){
 			let temp_html = `
-			<div style='background-color:red;'class='content-box' onclick='/content(${id})'>
+			<div style='background-color:red;' class='content-box' onclick="location.href='/content/${id}'">
 				<h3>${title}</h3>
 				<p>${content}</p>
 				<p>${url}</p>
@@ -63,7 +63,7 @@
 		 		success: function(response) {
 		 			if(response['result'] == 'success'){
 		 				alert('연결 완료')
-		 				window.location.reload();
+						window.location.href = '/content/' + id;
 		 			}
 		 		}
 		 	});
