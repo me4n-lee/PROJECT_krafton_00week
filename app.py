@@ -1,35 +1,48 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify, flash, session
+from flask import Flask, render_template, request, redirect, url_for, jsonify, flash, session, Response
 from pymongo import MongoClient
 from bson import ObjectId
+from flask_jwt_extended import  decode_token, JWTManager, jwt_required, get_jwt_identity, create_access_token
+from functools import wraps
 
 app = Flask(__name__)
 app.secret_key = 'kraftonjungle'
+app.config['JWT_SECRET_KEY'] = 'kraftonjungle'  # 실제로는 보안을 위해 별도의 파일에 저장해주세요.
+jwt = JWTManager(app)
 
 # MongoDB 연결
 client = MongoClient('localhost', 27017)
 db = client.test02
 
+#인증을 확인하고 인증되지 않은 사용자를 로그인 페이지로 리디렉션하는 데코레이터
+# def jwt_required_redirect(fn):
+#     @wraps(fn)
+#     def wrapper(*args, **kwargs):
+#         token = request.cookies.get('access_token')
+#         if token is None:
+#             return redirect(url_for('login'))
+#         try:
+#             jwt_required()(fn)(*args, **kwargs)
+#         except:
+#             return redirect(url_for('login'))
+#         return fn(*args, **kwargs)
+#     return wrapper
+def jwt_required_redirect(fn):
+    @wraps(fn)
+    def wrapper(*args, **kwargs):
+        token = request.cookies.get('access_token')
+        if token is None:
+            return redirect(url_for('login'))
+        try:
+            decode_token(token)
+        except:
+            return redirect(url_for('login'))
+        return fn(*args, **kwargs)
+    return wrapper
+
 
 @app.route('/')
 def login():
    return render_template('login.html')
-
-# @app.route('/api/login', methods=['POST'])
-# def check_login():
-#     # POST 요청에서 데이터 추출
-#     user_id = request.form['id']
-#     password = request.form['password']
-
-#     # mongoDB 에서 데이터 조회
-#     user = db.user.find_one({'id': user_id, 'password': password})
-
-#     # 로그인 정보가 일치하면 home 으로 redirect
-#     if user:
-#         flash('로그인 성공!')
-#         return redirect(url_for('home'))
-#     # 일치하지 않으면 다시 로그인 페이지로 redirect
-#     else:
-#         return redirect(url_for('login'))
 
 @app.route('/api/login', methods=['POST'])
 def check_login():
@@ -45,10 +58,13 @@ def check_login():
         session['user_id'] = user_id
         session['user_nickname'] = user['nickname']
         flash('로그인 성공!')
-        return jsonify({'result': 'success', 'redirect': '/home'})
+
+        access_token = create_access_token(identity=user_id)
+        return jsonify({'result': 'success', 'access_token': access_token, 'redirect': '/home'})
     # 일치하지 않으면 다시 로그인 페이지로 redirect
     else:
         return jsonify({'result': 'fail'})
+
     
 
 @app.route('/signup')
@@ -88,10 +104,12 @@ def check_duplication():
 
 
 @app.route('/home')
+@jwt_required_redirect
 def home():
    return render_template('home.html')
 
 @app.route('/mypage')
+@jwt_required_redirect
 def mypage():
     # 세션에서 user_id와 user_nickname 가져오기
     user_id = session.get('user_id')
@@ -106,6 +124,20 @@ def mypage():
     
     return render_template('mypage.html', user_id=user_id, user_nickname=user_nickname, articles=articles)
 
+# @app.route('/mypage')
+# @jwt_required
+# def mypage():
+#     # 토큰에서 user_id 가져오기
+#     user_id = get_jwt_identity()
+    
+#     # 사용자 정보 조회
+#     user = db.user.find_one({'id': user_id})
+#     user_nickname = user['nickname']
+    
+#     # 현재 로그인한 사용자가 작성한 글만 조회
+#     articles = db.article.find({'user_id': user_id})
+    
+#     return render_template('mypage.html', user_id=user_id, user_nickname=user_nickname, articles=articles)
 
 
 

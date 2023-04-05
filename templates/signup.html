@@ -36,7 +36,7 @@
                         success: function (response) {
                             if (response["result"] == "success") {
                                 alert("회원가입 성공!");
-                                window.location.reload();
+                                window.location.href = '/';
                             } else {
                                 alert("서버 오류!");
                             }

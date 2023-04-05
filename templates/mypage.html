@@ -30,19 +30,9 @@
 				</div>
 				{% endfor %}
 			</section>
-			<section id="like-posts">
-				<p>{{ user_id }}님이 좋아요를 누른 게시글</p>
-				{% for article in articles %}
-				<div class="content-box" onclick="location.href='/content?id={{ article.id }}'">
-					<h3>{{ article.title }}</h3>
-					<p>{{ article.content }}</p>
-				</div>
-				{% endfor %}
-			</section>
 		</main>
 	</div>
-	<!-- JavaScript -->
-	<script src="frontend/js/script.js"></script>
+	  
 </body>
 
 </html>
