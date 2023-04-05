@@ -3,6 +3,8 @@ from pymongo import MongoClient
 from bson import ObjectId
 from flask_jwt_extended import  decode_token, JWTManager, jwt_required, get_jwt_identity, create_access_token
 from functools import wraps
+import smtplib
+from email.mime.text import MIMEText
 
 app = Flask(__name__)
 app.secret_key = 'kraftonjungle'
@@ -134,8 +136,9 @@ def mypage():
     
     # 현재 로그인한 사용자가 작성한 글만 조회
     articles = db.article.find({'user_id': user_id})
+    user_info = db.user.find({'id': user_id})
     
-    return render_template('mypage.html', user_id=user_id, user_nickname=user_nickname, articles=articles)
+    return render_template('mypage.html', user_id=user_id, user_nickname=user_nickname, articles=articles, user_info=user_info)
 
 # @app.route('/mypage')
 # @jwt_required
@@ -323,10 +326,12 @@ def post_match():
     content = request.form['content'] 
     r_id = request.form['r_id']
 
-    matching={'title':title, 'content': content, 'r_id':r_id}
+    matching={'title':title, 'content': content, 'r_id':r_id, 'id':user_id}
 
     # 3. mongoDB에 데이터를 넣기
     result = db.matching.insert_one(matching)
+    new_id = str(result.inserted_id)
+    db.matching.update_one({'_id' : result.inserted_id}, {'$set' : {'new_id':new_id}})
 
     return jsonify({'result': 'success'})
 
@@ -335,8 +340,66 @@ def accept12():
     user_id = session.get('user_id')
     matches = list(db.matching.find({'r_id': user_id}, {'_id' : 0}))
 
-    print(matches)
     return jsonify({'result': 'success', 'matches': matches})
+
+@app.route('/requesting')
+def requesting():
+    # URL의 쿼리스트링에서 id 값을 추출
+    article_id = request.args.get('id')
+
+    # 추출한 id 값으로 DB에서 해당 article을 조회
+    article = db.matching.find_one({'new_id': article_id})
+
+    # m_info.html 페이지를 렌더링하고, 정보 전달
+    return render_template('m_accept.html', article=article)
+
+@app.route('/api/email', methods=['POST'])
+def sendEmail():
+    real_id = session.get('user_id')
+    user_id = request.form['user_id']
+    article_id = request.form['article_id']
+    matching_title = db.matching.find_one({'new_id':article_id})
+    email_from = db.user.find_one({'id': real_id})
+    email_to = db.user.find_one({'id': user_id})
+
+    print(real_id)
+    print(user_id)
+    print(article_id)
+    print(matching_title['title'])
+    print(email_from['email'])
+    print(email_to['email'])
+    # 세션 생성
+    s = smtplib.SMTP('smtp.gmail.com', 587)
+
+    # TLS 보안 시작
+    s.starttls()
+
+    #로그인 인증
+    s.login('hawk58927@gmail.com', 'agqhlglabmfjihpo')
+
+    #보낼 메시지 설정
+    msg = MIMEText(real_id + " " + "님이" + matching_title['title'] + " " + "에 대한 요청을 수락하셨습니다!" + email_from['email'] + " " +  "으로 자세한 내용을 보내주세요.")
+    msg['Subject'] = matching_title['title'] + " " + '에 대한 매칭이 성사됐습니다!'
+    msg['From'] = 'hawk58927@gmail.com'
+    msg['To'] = email_to['email']
+
+
+    #메일보내기
+    s.sendmail("hawk58927@gmail.com", email_to['email'], msg.as_string())
+
+    #세션 종료
+    s.quit()
+
+    db.matching.delete_one({'new_id':article_id})
+
+    return jsonify({'result': 'success'})
+
+@app.route('/api/delete', methods=['POST'])
+def deletematch():
+    article_id = request.form['article_id']
+    db.matching.delete_one({'new_id':article_id})
+
+    return jsonify({'result': 'success'})
 
 if __name__ == '__main__':  
    app.run('0.0.0.0',port=5000,debug=True)

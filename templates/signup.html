@@ -54,25 +54,33 @@
     }
 </script>
 
-<body>
-    <main class="bg-gray-300 w-[400px] overflow-hidden mx-auto mt-2 px-[20px] pt-5 rounded-lg">
+<body class = "bg-black flex justify-center items-center h-screen">
+    <main class="bg-gray-300 w-[400px] h-[950px] mx-auto px-[20px] pt-5 rounded-lg shadow-lg" style="box-shadow: 0 10px 20px rgba(130, 130, 130, 0.3), /* 위 */
+    0 -10px 20px rgba(130, 130, 130, 0.3), /* 아래 */
+    -10px 0 20px rgba(130, 130, 130, 0.3), /* 왼쪽 */
+    10px 0 20px rgba(130, 130, 130, 0.3) /* 오른쪽 */">
         <h1 class="text-center text-4xl font-bold mb-[20px]">Sign Up</h1>
         <label for="id" class="text-2xl mb-[10px] font-bold">ID</label>
         <input type="text" id="post-id" name="id" required class="h-10 w-[360px] rounded indent-3 mb-[20px]"
             placeholder="아이디를 입력해주세요.">
-        <label for="password" class="text-2xl mb-[10px] font-bold">Password</label>
+        <br/>
+        <label for="password" class="text-xl mb-[10px] font-bold">Password</label>
         <input type="password" id="post-password" name="password" required
             class="h-10 w-[360px] rounded mb-[20px] indent-3" placeholder="비밀번호를 입력해주세요.">
-        <label for="check_password" class="text-2xl mb-[10px] font-bold">Check Password</label>
+        <br/>
+        <label for="check_password" class="text-xl mb-[10px] font-bold">Check Password</label>
         <input type="password" id="post-check_password" name="check_password" required
             class="h-10 w-[360px] rounded mb-[20px] indent-3" placeholder="비밀번호를 재입력해주세요.">
-        <label for="nickname" class="text-2xl mb-[10px] font-bold">Nickname</label>
+        <br/>
+        <label for="nickname" class="text-xl mb-[10px] font-bold">Nickname</label>
         <input type="text" id="post-nickname" name="nickname" required class="h-10 w-[360px] rounded mb-[20px] indent-3"
             placeholder="다른 사용자에게 보여지는 별명입니다.">
-        <label for="name" class="text-2xl mb-[10px] font-bold">Name</label>
+        <br/>   
+        <label for="name" class="text-xl mb-[10px] font-bold">Name</label>
         <input type="text" id="post-name" name="name" required class="h-10 w-[360px] rounded mb-[20px] indent-3"
             placeholder="성함을 입력해주세요.">
-        <label for="email" class="text-2xl mb-[10px] font-bold">Email</label>
+        <br/>
+        <label for="email" class="text-xl mb-[10px] font-bold">Email</label>
         <input type="text" id="post-email" name="email" required class="h-10 w-[360px] rounded mb-[20px] indent-3"
             placeholder="이메일 주소를 입력해주세요.">
         <p class="text-2xl mb-[10px] font-base font-bold">자신 있는 분야</p>
@@ -97,11 +105,12 @@
             <label for="database2">데이터베이스</label>
             <input type="radio" id="database2" name="weakness" value="datebase" class="mr-[10px]">
         </div>
-        <div class="flex justify-between mb-[20px]">
+        <div class="">
             <button type="submit" name="confirm" onclick="post_signup()"
-                class="text-xl bg-green-300 w-[170px] h-[50px] rounded-lg font-bold">가입완료</button>
+                class="text-xl bg-green-400 w-[360px] h-[40px] rounded-lg font-bold flex justify-center items-center lex justify-center items-center shadow-xl">가입완료</button>
+            <br/>
             <button type="submit" name="return" onclick="location.href='/'"
-                class="text-xl bg-gray-400 w-[170px] h-[50px] rounded-lg font-bold">취소</button>
+                class="text-xl bg-gray-400 w-[360px] h-[40px] rounded-lg font-bold flex justify-center items-center lex justify-center items-center shadow-xl">취소</button>
         </div>
     </main>
 </body>

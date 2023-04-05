@@ -5,69 +5,112 @@
 	<title>Home</title>
 	<script src="https://cdn.tailwindcss.com"></script>
 </head>
+<style>
+	::-webkit-scrollbar {
+		display: none;
+	}
+	::-webkit-input-placeholder {
+		color:#fff;
+	}
+</style>
 
-<body>
+<body class="bg-black flex justify-center items-center h-screen">
 	<div class="w-[1200px] mx-auto overflow-hidden">
 		<header class="block overflow-hidden mb-[20px] mt-[20px]">
 			<h1 class="text-left text-3xl float-left">HOME</h1>
 			<div class="float-right">
-				<button class="bg-green-300 text-2xl rounded-lg w-[150px] h-[50px]" type="submit" name="mypage"
-					id="mypage" onclick="location.href='/mypage'">마이페이지</button>
-				<button class="bg-gray-300 text-2xl rounded-lg w-[150px] h-[50px]" type="submit" name="logout"
-					onclick="logout()">로그아웃</button>
+				<button class="bg-green-400 text-xl rounded-full w-[50px] h-[50px] shadow-sm" style="box-shadow: 
+				0 10px 20px rgba(3, 210, 128, 0.2), /* 위 */
+				0 -10px 20px rgba(3, 210, 128, 0.2), /* 아래 */
+				-10px 0 20px rgba(3, 210, 128, 0.2), /* 왼쪽 */
+				10px 0 20px rgba(3, 210, 128, 0.2) /* 오른쪽 */" type="submit" name="mypage" id="mypage"
+					onclick="location.href='/mypage'">
+					MY
+				</button>
+				<button class="bg-gray-200 text-xl rounded-full w-[50px] h-[50px] shadow-sm" style="box-shadow: 
+				0 10px 20px rgba(3, 210, 128, 0.2), /* 위 */
+				0 -10px 20px rgba(3, 210, 128, 0.2), /* 아래 */
+				-10px 0 20px rgba(3, 210, 128, 0.2), /* 왼쪽 */
+				10px 0 20px rgba(3, 210, 128, 0.2) /* 오른쪽 */" type="submit" name="logout" onclick="logout()">
+					OUT
+				</button>
 			</div>
 		</header>
-		<div class="bg-gray-300 w-[300px] h-[700px] float-left text-3xl p-[40px]">
-			<div class="dropdown bg-white mb-[20px] p-[5px]">
-				<span class="font-bold mb-[20px] dropdown mb-[10px]">프론트엔드</span>
-				<ul class="list-disc pl-[40px] text-2xl dropdown-content hidden mt-[10px]">
-					<li class="category cursor-pointer" onclick="category()">HTML</li>
-					<li class="category cursor-pointer" onclick="category()">CSS</li>
-					<li class="category cursor-pointer" onclick="category()">JAVASCRIPT</li>
-				</ul>
-			</div>
-			<div class="dropdown bg-white mb-[20px] p-[5px]">
-				<span class="font-bold mb-[20px] mt-[30px] dropdown">백엔드</span>
-				<ul class="list-disc pl-[40px] text-2xl dropdown-content hidden mt-[10px]">
-					<li class="category cursor-pointer" onclick="category()">PYTHON</li>
-					<li class="category cursor-pointer" onclick="category()">JAVA</li>
-					<li class="category cursor-pointer" onclick="category()">JSP</li>
-				</ul>
-			</div>
-			<div class="dropdown bg-white mb-[20px] p-[5px]">
-				<span class="font-bold mb-[20px] mt-[30px] dropdown">SERVER</span>
-				<ul class="list-disc pl-[40px] text-2xl dropdown-content hidden mt-[10px]">
-					<li class="category cursor-pointer" onclick="category()">FLASK</li>
-				</ul>
-			</div>
-			<div class="dropdown bg-white mb-[20px] p-[5px]">
-				<span class="font-bold mb-[20px] mt-[30px] dropdown">DB</span>
-				<ul class="list-disc pl-[40px] text-2xl dropdown-content hidden mt-[10px]">
-					<li class="category cursor-pointer" onclick="category()">MONGODB</li>
-				</ul>
+		<div class="bg-gray-300 w-[300px] h-[700px] float-left text-3xl p-[40px] mx-auto px-[20px] pt-5 rounded-lg shadow-lg"
+			style="box-shadow: 0 10px 20px rgba(130, 130, 130, 0.3), /* 위 */
+		0 -10px 20px rgba(130, 130, 130, 0.3), /* 아래 */
+		-10px 0 20px rgba(130, 130, 130, 0.3), /* 왼쪽 */
+		10px 0 20px rgba(130, 130, 130, 0.3) /* 오른쪽 */">
+			<div class="bg-white h-[660px] p-[40px] mx-auto px-[20px] pt-5 rounded-lg shadow-lg">
+				<div class="dropdown mb-[20px] p-[5px]">
+					<span class="font-bold mb-[20px] dropdown mb-[10px]">FRONTEND</span>
+					<ul class="list-disc pl-[40px] text-2xl dropdown-content hidden mt-[10px]">
+						<li class="category cursor-pointer" onclick="category()">HTML</li>
+						<li class="category cursor-pointer" onclick="category()">CSS</li>
+						<li class="category cursor-pointer" onclick="category()">JAVASCRIPT</li>
+					</ul>
+				</div>
+				<div class="dropdown mb-[20px] p-[5px]">
+					<span class="font-bold mb-[20px] mt-[30px] dropdown">BACKEND</span>
+					<ul class="list-disc pl-[40px] text-2xl dropdown-content hidden mt-[10px]">
+						<li class="category cursor-pointer" onclick="category()">PYTHON</li>
+						<li class="category cursor-pointer" onclick="category()">JAVA</li>
+						<li class="category cursor-pointer" onclick="category()">JSP</li>
+					</ul>
+				</div>
+				<div class="dropdown mb-[20px] p-[5px]">
+					<span class="font-bold mb-[20px] mt-[30px] dropdown">SERVER</span>
+					<ul class="list-disc pl-[40px] text-2xl dropdown-content hidden mt-[10px]">
+						<li class="category cursor-pointer" onclick="category()">FLASK</li>
+					</ul>
+				</div>
+				<div class="dropdown mb-[20px] p-[5px]">
+					<span class="font-bold mb-[20px] mt-[30px] dropdown">DB</span>
+					<ul class="list-disc pl-[40px] text-2xl dropdown-content hidden mt-[10px]">
+						<li class="category cursor-pointer" onclick="category()">MONGODB</li>
+					</ul>
+				</div>
 			</div>
 		</div>
 
-		<div class="bg-gray-300 w-[850px] h-[700px] float-right overflow-auto">
+		<div class="overflow-auto bg-gray-300 w-[850px] h-[700px] float-right mx-auto px-[20px] pt-5 rounded-lg shadow-lg"
+			style="box-shadow: 0 10px 20px rgba(130, 130, 130, 0.3), /* 위 */
+		0 -10px 20px rgba(130, 130, 130, 0.3), /* 아래 */
+		-10px 0 20px rgba(130, 130, 130, 0.3), /* 왼쪽 */
+		10px 0 20px rgba(130, 130, 130, 0.3) /* 오른쪽 */">
 			<section id="search-section">
-				<div id="search-bar"
-					class="mx-auto display-block bg-white w-[600px] h-[50px] rounded-lg mb-[30px] mt-[30px]">
-					<input type="text" placeholder="Search..." class="rounded-lg w-[400px] h-[50px]" id="searching">
-					<button onclick="search()" class="float-right h-[50px] mr-[10px]">Search</button>
+				<div>
+					<div class="w-[600px] mx-auto overflow-hidden mb-[100px]">
+						<div id="search-bar"
+							class="fixed mx-auto display-block w-[600px] h-[50px] rounded-lg mb-[30px] mt-[30px]">
+							<input type="text" placeholder="Search..." class="indent-[10px] bg-gray-400 rounded-lg w-[500px] h-[50px] shadow-lg"
+								id="searching"
+								>
+							<button onclick="search()" class="bg-green-300 float-right h-[50px] mr-[10px] w-[80px] rounded shadow-lg">Search</button>
+						</div>
+					</div>
 				</div>
 			</section>
-			<section id="content-section" class="w-[600px] mx-auto">
+			<section id="content-section" class="w-[600px] mx-auto rounded-lg">
 
 			</section>
 		</div>
 		<div>
 			<button type="submit" name="makecontent" onclick="location.href='/match'"
-				class="bg-green-300 rounded-lg text-2xl font-bold w-[150px] h-[50px] mt-[10px]">매칭하기!</button>
+				class="text-xl bg-green-400 rounded-lg  font-bold w-[140px] h-[40px] mt-[10px] shadow-sm" style="box-shadow: 
+				0 10px 20px rgba(3, 210, 128, 0.1), /* 위 */
+				0 -10px 20px rgba(3, 210, 128, 0.1), /* 아래 */
+				-10px 0 20px rgba(3, 210, 128, 0.1), /* 왼쪽 */
+				10px 0 20px rgba(3, 210, 128, 0.1) /* 오른쪽 */">Match!</button>
 			<button type="submit" name="makecontent" onclick="location.href='/write'"
-				class="clear-both float-right bg-green-300 rounded-lg text-2xl font-bold w-[150px] h-[50px] mt-[10px]">글쓰기</button>
+				class="clear-both float-right text-xl bg-green-400 rounded-lg  font-bold w-[140px] h-[40px] mt-[10px] shadow-sm"
+				style="box-shadow: 
+				0 10px 20px rgba(3, 210, 128, 0.1), /* 위 */
+				0 -10px 20px rgba(3, 210, 128, 0.1), /* 아래 */
+				-10px 0 20px rgba(3, 210, 128, 0.1), /* 왼쪽 */
+				10px 0 20px rgba(3, 210, 128, 0.1) /* 오른쪽 */">Write</button>
 		</div>
 	</div>
-	<a href="/mypage" id="mypage-link">My Page</a>
 	<!-- JavaScript -->
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -198,11 +241,11 @@
 
 		function makeArticle(title, content, url, category, id) {
 			let temp_html = `
-				<div class='cursor-pointer content-box mb-[30px] bg-white' onclick="location.href='/content?id=${id}'">
-					<h3 class="text-3xl font-bold">${title}</h3>
-					<p class="text-2xl">${content}</p>
-					<p>${url}</p>
-					<p>${category}</p>
+				<div class='cursor-pointer content-box mb-[30px] bg-white' rounded-lg shadow-lg onclick="location.href='/content?id=${id}'">
+					<h3 class="ml-[5px] mt-[5px] text-2xl font-bold">Title : ${title}</h3>
+					<p class="ml-[5px] mt-[5px] text-xl">Content : ${content}</p>
+					<p class="ml-[5px] mt-[5px]">URL : ${url}</p>
+					<p class="ml-[5px] mt-[5px] mb-[5px]">Category : ${category}</p>
 					<p style="display:none">${id}</p>
 				</div>
 			`

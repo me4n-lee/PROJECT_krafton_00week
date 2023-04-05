@@ -7,16 +7,39 @@
 </head>
 
 
-<body>
-    <div class="bg-gray-300 w-[1000px] mx-auto h-[750px] p-[30px] mt-[50px] text-xl">
-        <p class="mb-[20px] font-bold">카테고리</p>
-        <p class="mb-[20px] bg-gray-400 w-[450px] h-[50px] leading-[50px] indent-[10px]">{{ article['title'] }}</p>
-        <p class="mb-[20px] font-bold">제목</p>
-        <p class="mb-[20px] bg-gray-400 w-[450px] h-[50px] leading-[50px] indent-[10px]">{{ article['content'] }}</p>
-        <p class="mb-[20px] font-bold">URL</p>
-        <p class="mb-[20px] bg-gray-400 w-[450px] h-[50px] leading-[50px] indent-[10px]">{{ article['url'] }}</p>
-        <p class="mb-[20px] font-bold">내용</p>
-        <p class="mb-[20px] bg-gray-400 h-[250px] p-[10px]">{{ article['category'] }}</p>
+
+
+<body class = "bg-black flex justify-center items-center h-screen">
+    <div class="float-left">
+        <header class="block overflow-hidden mb-[20px] mt-[20px]">
+            <div class="float-left">
+                <button class="bg-green-400 text-xl rounded-full w-[50px] h-[50px] shadow-sm"
+                style="box-shadow: 
+                0 10px 20px rgba(3, 210, 128, 0.2), /* 위 */
+                0 -10px 20px rgba(3, 210, 128, 0.2), /* 아래 */
+                -10px 0 20px rgba(3, 210, 128, 0.2), /* 왼쪽 */
+                10px 0 20px rgba(3, 210, 128, 0.2) /* 오른쪽 */" type="submit" name="mypage"
+                    id="mypage" onclick="location.href='/home'">
+                    H
+                </button>
+            </div>
+        </header>
+        <div class="bg-gray-300 w-[800px] h-[720px] mx-auto px-[20px] pt-5 rounded-lg shadow-lg" style="box-shadow: 0 10px 20px rgba(130, 130, 130, 0.3), /* 위 */
+        0 -10px 20px rgba(130, 130, 130, 0.3), /* 아래 */
+        -10px 0 20px rgba(130, 130, 130, 0.3), /* 왼쪽 */
+        10px 0 20px rgba(130, 130, 130, 0.3) /* 오른쪽 */">
+        <div class="mx-auto">
+            <div>
+                <p class="text-2xl mb-[10px] font-bold block">Category</p>
+                <p class="mb-[10px] bg-gray-400 rounded-lg w-[450px] h-[50px] leading-[50px] indent-[10px]">{{ article['title'] }}</p>
+                <p class="text-2xl mb-[10px] font-bold block">Title</p>
+                <p class="mb-[10px] bg-gray-400 rounded-lg w-[450px] h-[50px] leading-[50px] indent-[10px]">{{ article['content'] }}</p>
+                <p class="text-2xl mb-[10px] font-bold block">URL</p>
+                <p class="mb-[10px] bg-gray-400 rounded-lg w-[450px] h-[50px] leading-[50px] indent-[10px]">{{ article['url'] }}</p>
+                <p class="text-2xl mb-[10px] font-bold block">Content</p>
+                <p class="mb-[20px] bg-gray-400 rounded-lg h-[250px] p-[10px]">{{ article['category'] }}</p>
+            </div>
+        </div>
     </div>
 </body>
 

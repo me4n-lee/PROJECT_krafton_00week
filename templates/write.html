@@ -53,14 +53,13 @@
     }
 </script>
 
-<body>
-    <header>
-        <h1 class="text-center text-4xl font-bold mb-[20px]">게시글 작성</h1>
-
-    </header>
-    <div class="bg-gray-300 w-[800px] h-[720px] mx-auto px-[20px] pt-5 rounded-lg">
+<body class = "bg-black flex justify-center items-center h-screen">
+    <div class="bg-gray-300 w-[800px] h-[720px] mx-auto px-[20px] pt-5 rounded-lg shadow-lg" style="box-shadow: 0 10px 20px rgba(130, 130, 130, 0.3), /* 위 */
+    0 -10px 20px rgba(130, 130, 130, 0.3), /* 아래 */
+    -10px 0 20px rgba(130, 130, 130, 0.3), /* 왼쪽 */
+    10px 0 20px rgba(130, 130, 130, 0.3) /* 오른쪽 */">
         <main>
-            <label for="b_category" class="text-2xl mb-[10px] font-bold block">카테고리</label>
+            <label for="b_category" class="text-2xl mb-[10px] font-bold block">Category</label>
             <select id="b_category" name="b_category" class="h-10 rounded mb-[20px] indent-3 w-1/4">
                 <option value="category0">카테고리 선택</option>
                 <option value="category1">프론트엔드</option>
@@ -71,7 +70,7 @@
             <select name="category" id="post-category" disabled class="h-10 rounded mb-[20px] indent-3 w-2/5">
                 <option value=""></option>
             </select>
-            <label for="title" class="text-2xl mb-[10px] font-bold block">제목</label>
+            <label for="title" class="text-2xl mb-[10px] font-bold block">Title</label>
             <input type="text" id="post-title" name="title" class="h-10 w-4/5 rounded mb-[20px] indent-3"
                 placeholder="강의 혹은 책의 제목을 입력해주세요.">
             <label for="url" class="text-2xl mb-[10px] font-bold block">URL</label>
@@ -81,11 +80,11 @@
             <textarea id="post-content" name="content" rows="5" cols="40"
                 class="h-[250px] w-full rounded mb-[20px] indent-3 resize-none pt-[10px]"
                 placeholder="이 게시글을 추천하는 이유 혹은 내용 요약"></textarea>
-            <div class="flex justify-between mx-[100px]">
-                <button type="submit" name="cancel" onclick="location.href='/home'"
-                    class="text-xl bg-gray-400 w-[170px] h-[50px] rounded-lg font-bold">취소</button>
+            <div class="flex justify-between mx-[140px]">
                 <button type="submit" name="confirm" onclick="post_article()"
-                    class="text-xl bg-green-300 w-[170px] h-[50px] rounded-lg font-bold">게시글 등록</button>
+                    class="text-xl bg-green-400 w-[140px] h-[40px] rounded-lg font-bold shadow-xl">Confirm</button>
+                <button type="submit" name="cancel" onclick="location.href='/home'"
+                    class="text-xl bg-gray-400 w-[140px] h-[40px] rounded-lg font-bold shadow-xl">Cancel</button>
             </div>
         </main>
     </div>
