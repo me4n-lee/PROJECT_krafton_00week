@@ -7,6 +7,7 @@
 </head>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.tailwindcss.com"></script>
 <script>
     function post_signup() {
         let id = $("#post-id").val();
@@ -26,44 +27,54 @@
             url: "/api/check_duplication",
             data: { id: id, nickname: nickname },
             success: function (response) {
-            if (response.result === "success") {
-                // No duplication
-                $.ajax({
-                type: "POST",
-                url: "/api/signup",
-                data: { id_give: id, password_give: password, check_password_give: check_password, nickname_give: nickname, name_give: name },
-                success: function (response) {
-                    if (response["result"] == "success") {
-                    alert("회원가입 성공!");
-                    window.location.reload();
-                    } else {
-                    alert("서버 오류!");
-                    }
+                if (response.result === "success") {
+                    // No duplication
+                    $.ajax({
+                        type: "POST",
+                        url: "/api/signup",
+                        data: { id_give: id, password_give: password, check_password_give: check_password, nickname_give: nickname, name_give: name },
+                        success: function (response) {
+                            if (response["result"] == "success") {
+                                alert("회원가입 성공!");
+                                window.location.reload();
+                            } else {
+                                alert("서버 오류!");
+                            }
+                        }
+                    });
+                } else {
+                    // Duplication found
+                    alert(response.message);
                 }
-                });
-            } else {
-                // Duplication found
-                alert(response.message);
-            }
             }
         });
     }
 </script>
 
 <body>
-    <main>
-        <label for="id">ID:</label>
-        <input type="text" id="post-id" name="id" required><br><br>
-        <label for="password">Password:</label>
-        <input type="password" id="post-password" name="password" required><br><br>
-        <label for="check_password">Check Password:</label>
-        <input type="password" id="post-check_password" name="check_password" required><br><br>
-        <label for="nickname">Nickname:</label>
-        <input type="text" id="post-nickname" name="nickname" required><br><br>
-        <label for="name">Name:</label>
-        <input type="text" id="post-name" name="name" required><br><br>
-        <button type="submit" name="confirm" onclick="post_signup()">Confirm</button>
-        <button type="submit" name="return" onclick="location.href='/'">Return to login</button>
+    <main class="bg-gray-300 w-[400px] overflow-hidden mx-auto mt-36 px-[20px] pt-5 rounded-lg">
+        <h1 class="text-center text-4xl font-bold mb-[20px]">Sign Up</h1>
+        <label for="id" class="text-2xl mb-[10px] font-bold">ID</label>
+        <input type="text" id="post-id" name="id" required class="h-10 w-[360px] rounded indent-3"
+            placeholder="아이디를 입력해주세요."><br><br>
+        <label for="password" class="text-2xl mb-[10px] font-bold">Password:</label>
+        <input type="password" id="post-password" name="password" required
+            class="h-10 w-[360px] rounded mb-[20px] indent-3" placeholder="비밀번호를 입력해주세요."><br><br>
+        <label for="check_password" class="text-2xl mb-[10px] font-bold">Check Password:</label>
+        <input type="password" id="post-check_password" name="check_password" required
+            class="h-10 w-[360px] rounded mb-[20px] indent-3" placeholder="비밀번호를 재입력해주세요."><br><br>
+        <label for="nickname" class="text-2xl mb-[10px] font-bold">Nickname:</label>
+        <input type="text" id="post-nickname" name="nickname" required class="h-10 w-[360px] rounded mb-[20px] indent-3"
+            placeholder="다른 사용자에게 보여지는 별명입니다."><br><br>
+        <label for="name" class="text-2xl mb-[10px] font-bold">Name:</label>
+        <input type="text" id="post-name" name="name" required class="h-10 w-[360px] rounded mb-[20px] indent-3"
+            placeholder="성함을 입력해주세요."><br><br>
+        <div class="flex justify-between mb-[20px]">
+            <button type="submit" name="confirm" onclick="post_signup()"
+                class="text-xl bg-green-300 w-[170px] h-[50px] rounded-lg font-bold">가입완료</button>
+            <button type="submit" name="return" onclick="location.href='/'"
+                class="text-xl bg-gray-400 w-[170px] h-[50px] rounded-lg font-bold">취소</button>
+        </div>
     </main>
 </body>
 

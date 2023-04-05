@@ -1,1 +1,50 @@
-This is correction!
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>{{ article['title'] }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+    <div class="bg-gray-300 w-[1000px] mx-auto h-[750px] p-[30px] mt-[50px] text-xl">
+        <p class="mb-[20px] font-bold">카테고리</p>
+        <p class="mb-[20px] bg-gray-400 w-[450px] h-[50px] leading-[50px] indent-[10px]">{{ article['title'] }}</p>
+        <p class="mb-[20px] font-bold">제목</p>
+        <p class="mb-[20px] bg-gray-400 w-[450px] h-[50px] leading-[50px] indent-[10px]">{{ article['content'] }}</p>
+        <p class="mb-[20px] font-bold">URL</p>
+        <p class="mb-[20px] bg-gray-400 w-[450px] h-[50px] leading-[50px] indent-[10px]">{{ article['url'] }}</p>
+        <p class="mb-[20px] font-bold">내용</p>
+        <p class="mb-[20px] bg-gray-400 h-[250px] p-[10px]">{{ article['category'] }}</p>
+    </div>
+    <div class="flex justify-between mx-[100px]">
+        <button type="submit" name="cancel" id="delete-btn" class="text-xl bg-gray-400 w-[170px] h-[50px] rounded-lg font-bold">삭제</button>
+        <button type="submit" name="confirm" id="edit-btn" class="text-xl bg-green-300 w-[170px] h-[50px] rounded-lg font-bold">수정</button>        
+    </div>
+    <script>
+        const deleteBtn = document.getElementById('delete-btn');
+        const editBtn = document.getElementById('edit-btn');
+        const articleId = '{{ article["id"] }}';
+
+        deleteBtn.addEventListener('click', () => {
+            fetch(`/api/delete_article?id=${articleId}`, {
+                method: 'DELETE',
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.result === 'success') {
+                    alert('글이 삭제되었습니다.');
+                    window.location.href = '/mypage';
+                } else {
+                    alert('글 삭제에 실패하였습니다.');
+                }
+            });
+        });
+
+        editBtn.addEventListener('click', () => {
+            window.location.href = `/rewrite?id=${articleId}`;
+        });
+    </script>
+</body>
+
+</html>

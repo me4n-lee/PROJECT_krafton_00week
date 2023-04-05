@@ -2,39 +2,39 @@
 <html>
     <head>
         <title>WRITE</title>
+        <script src="https://cdn.tailwindcss.com"></script>
     </head>
     <body>
         <header>
-            <h1>Category Dropdown with Input Form</h1>
-            <nav>
-                <ul>
-                    <li class="dropdown">
-                        <a href="#">Category</a>
-                        <div class="dropdown-content">
-                            <a href="#">Category 1</a>
-                            <a href="#">Category 2</a>
-                            <a href="#">Category 3</a>
-                        </div>
-                    </li>
-                </ul>
-            </nav>
+            <h1 class="text-center text-4xl font-bold mb-[20px]">게시글 수정</h1>
         </header>
-        <main>
-            <label for="category">Category:</label>
-            <select id="category" name="category">
-                <option value="category1">Category 1</option>
-                <option value="category2">Category 2</option>
-                <option value="category3">Category 3</option>
-            </select>
-            <br><br>
-            <label for="title">Title:</label>
-            <input type="text" id="title" name="title"><br><br>
-            <label for="url">URL:</label>
-            <input type="text" id="url" name="url"><br><br>
-            <label for="content">Content:</label>
-            <textarea id="content" name="content" rows="5" cols="40"></textarea><br><br>
-            <button type="submit" name="cancel" onclick="location.href='/correction'">Cancel</button>
-            <button type="submit" name="confirm" onclick="location.href='/correction'">Confirm</button>
-        </main>
+        <div class="bg-gray-300 w-[800px] h-[720px] mx-auto px-[20px] pt-5 rounded-lg">
+            <form action="/api/update_article?id={{ article['id'] }}" method="post">
+                <main>
+                    <label for="category" class="text-2xl mb-[10px] font-bold block">카테고리</label>
+                    <select id="post-category" name="category" class="h-10 rounded mb-[20px] indent-3 w-1/4">
+                        <option value="category1" {% if article['category'] == 'category1' %}selected{% endif %}>Category 1</option>
+                        <option value="category2" {% if article['category'] == 'category2' %}selected{% endif %}>Category 2</option>
+                        <option value="category3" {% if article['category'] == 'category3' %}selected{% endif %}>Category 3</option>
+                    </select>
+                    <label for="title" class="text-2xl mb-[10px] font-bold block">제목</label>
+                    <input type="text" id="post-title" name="title" class="h-10 w-4/5 rounded mb-[20px] indent-3"
+                        value="{{ article['title'] }}" placeholder="강의 혹은 책의 제목을 입력해주세요.">
+                    <label for="url" class="text-2xl mb-[10px] font-bold block">URL</label>
+                    <input type="text" id="post-url" name="url" class="h-10 w-4/5 rounded mb-[20px] indent-3"
+                        value="{{ article['url'] }}" placeholder="URL을 입력해주세요.">
+                    <label for="content" class="text-2xl mb-[10px] font-bold block">Content</label>
+                    <textarea id="post-content" name="content" rows="5" cols="40"
+                        class="h-[250px] w-full rounded mb-[20px] indent-3 resize-none pt-[10px]"
+                        placeholder="이 게시글을 추천하는 이유 혹은 내용 요약">{{ article['content'] }}</textarea>
+                    <div class="flex justify-between mx-[100px]">
+                        <button type="submit" name="cancel" onclick="location.href='/home'"
+                            class="text-xl bg-gray-400 w-[170px] h-[50px] rounded-lg font-bold">취소</button>
+                        <button type="submit" name="confirm" onclick="post_article()"
+                            class="text-xl bg-green-300 w-[170px] h-[50px] rounded-lg font-bold">게시글 등록</button>
+                    </div>
+                </main>
+            </form>
+        </div>
     </body>
 </html>

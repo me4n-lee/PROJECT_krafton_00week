@@ -115,13 +115,14 @@ def write():
 
 @app.route('/api/write', methods=['POST'])
 def post_article():
+    user_id = session.get('user_id')
     # 1. 클라이언트로부터 데이터를 받기
     url_receive = request.form['url_give']  # 클라이언트로부터 url을 받는 부분
     content_receive = request.form['content_give']  # 클라이언트로부터 comment를 받는 부분
     title_receive = request.form['title_give']
     category_receive = request.form['category_give']
 
-    article={'category':category_receive, 'title': title_receive, 'url':url_receive, 'content':content_receive}
+    article={'category':category_receive, 'title': title_receive, 'url':url_receive, 'content':content_receive, 'user_id':user_id}
 
     # 3. mongoDB에 데이터를 넣기
     result = db.article.insert_one(article)
@@ -132,22 +133,17 @@ def post_article():
 
 @app.route('/rewrite')
 def rewrite():
-   return render_template('rewrite.html')
+    # URL의 쿼리스트링에서 id 값을 추출
+    article_id = request.args.get('id')
 
-# @app.route('/api/rewrite', methods=['PUT'])
-# def update_article():
-#     title = request.form['title_give']
-#     new_title = request.form['new_title_give']
-#     new_content = request.form['new_content_give']
-#     db.memos.update_one({'title': title}, {
-#                         '$set': {'title': new_title, 'content': new_content}})
+    # 추출한 id 값으로 DB에서 해당 article을 조회
+    article = db.article.find_one({'id': article_id})
 
-#     return jsonify({'result': 'success'})
+    # rewrite.html 페이지를 렌더링하고, article 정보 전달
+    return render_template('rewrite.html', article=article)
 
 
-@app.route('/correction')
-def correction():
-   return render_template('correction.html')
+
 
 @app.route('/api/get_articles', methods=['GET'])
 def get_articles():
@@ -156,23 +152,71 @@ def get_articles():
         article['_id'] = str(article['_id'])
     return jsonify({'articles': articles})
 
-@app.route('/content/<article_id>')
-def content_detail(article_id):
-    # article 정보 조회
+@app.route('/content')
+def content():
+    # URL의 쿼리스트링에서 id 값을 추출
+    article_id = request.args.get('id')
+
+    # 추출한 id 값으로 DB에서 해당 article을 조회
     article = db.article.find_one({'id': article_id})
-    
+
     # content.html 페이지를 렌더링하고, article 정보 전달
     return render_template('content.html', article=article)
 
-@app.route('/api/content', methods=['GET', 'POST'])
-def content():
-    id_receive = request.form['id_give']
-    result = db.article.find_one({'id' : id_receive})
-    return jsonify({'result':'success', 'content' : result})
+@app.route('/correction')
+def correction():
+    # URL의 쿼리스트링에서 id 값을 추출
+    article_id = request.args.get('id')
+
+    # 추출한 id 값으로 DB에서 해당 article을 조회
+    article = db.article.find_one({'id': article_id})
+
+    # content.html 페이지를 렌더링하고, article 정보 전달
+    return render_template('correction.html', article=article)
+
+#민혁
+
+@app.route('/api/delete_article', methods=['DELETE'])
+def delete_article():
+    article_id = request.args.get('id')
+    result = db.article.delete_one({'id': article_id})
+    
+    if result.deleted_count > 0:
+        return jsonify({'result': 'success'})
+    else:
+        return jsonify({'result': 'fail'})
+
+@app.route('/api/update_article', methods=['POST'])
+def update_article():
+    # URL의 쿼리스트링에서 id 값을 추출
+    article_id = request.args.get('id')
+
+    # 폼 데이터에서 게시글 정보를 가져옵니다.
+    category = request.form.get('category')
+    title = request.form.get('title')
+    url = request.form.get('url')
+    content = request.form.get('content')
+
+    # 데이터베이스에 수정된 정보를 업데이트합니다.
+    result = db.article.update_one({'id': article_id}, {'$set': {
+        'category': category,
+        'title': title,
+        'url': url,
+        'content': content
+    }})
+
+    # 업데이트가 완료되면 사용자를 원하는 페이지로 리다이렉트합니다.
+    if result.modified_count > 0:
+        return redirect(url_for('mypage'))
+    else:
+        return 'Fail to update article'
+
+
+#
 
 
 
 
 
 if __name__ == '__main__':  
-   app.run('0.0.0.0',port=5001,debug=True)
+   app.run('0.0.0.0',port=5000,debug=True)

@@ -1,42 +1,73 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<title>Home</title>
+	<script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-	<header>
-		<h1>HOME</h1>
-        <button type="submit" name="mypage" onclick="location.href='/mypage'">마이페이지</button>
-        <button type="submit" name="logout" onclick="location.href='/'">로그아웃</button>
-	</header>
-	<main>
-		<section id="search-section">
-			<h2>Search Content</h2>
-			<div  id="search-bar">
-				<input type="text" placeholder="Search...">
-				<button type="submit">Search</button>
-			</div>
-		</section>
-		<section id="content-section">
-			<h2>Content</h2>
 
-		</section>
-		
-		
-        <button type="submit" name="makecontent" onclick="location.href='/write'">글쓰기</button>
-	</main>
+<body>
+	<div class="w-[1200px] mx-auto overflow-hidden">
+		<header class="block overflow-hidden mb-[20px] mt-[20px]">
+			<h1 class="text-left text-3xl float-left">HOME</h1>
+			<div class="float-right">
+				<button class="bg-green-300 text-2xl rounded-lg w-[150px] h-[50px]" type="submit" name="mypage"
+					onclick="location.href='/mypage'">마이페이지</button>
+				<button class="bg-gray-300 text-2xl rounded-lg w-[150px] h-[50px]" type="submit" name="logout"
+					onclick="location.href='/'">로그아웃</button>
+			</div>
+		</header>
+		<div class="bg-gray-300 w-[300px] h-[700px] float-left text-3xl p-[40px]">
+			<ul>
+				<li class="font-bold mb-[20px]">프론트엔드</li>
+				<ul class="list-disc pl-[40px] text-2xl">
+					<li>HTML</li>
+					<li>CSS</li>
+					<li>JavaScript</li>
+				</ul>
+				<li class="font-bold mb-[20px] mt-[30px]">백엔드</li>
+				<ul class="list-disc pl-[40px] text-2xl">
+					<li>PYTHON</li>
+					<li>JAVA</li>
+					<li>JSP</li>
+				</ul>
+				<li class="font-bold mb-[20px] mt-[30px]">SERVER</li>
+				<ul class="list-disc pl-[40px] text-2xl">
+					<li>FLASK</li>
+				</ul>
+				<li class="font-bold mb-[20px] mt-[30px]">DB</li>
+				<ul class="list-disc pl-[40px] text-2xl">
+					<li>MONGODB</li>
+				</ul>
+			</ul>
+		</div>
+		<div class="bg-gray-300 w-[850px] h-[700px] float-right">
+			<section id="search-section">
+				<div id="search-bar"
+					class="mx-auto display-block bg-white w-[600px] h-[50px] rounded-lg mb-[30px] mt-[30px]">
+					<input type="search" placeholder="Search..." class="rounded-lg">
+					<button type="submit" class="float-right">Search</button>
+				</div>
+			</section>
+			<section id="content-section" class="w-[600px] mx-auto">
+
+			</section>
+		</div>
+		<button type="submit" name="makecontent" onclick="location.href='/write'"
+			class="block clear-both float-right bg-green-300 rounded-lg text-2xl font-bold w-[150px] h-[50px] mt-[10px]">글쓰기</button>
+	</div>
 	<!-- JavaScript -->
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script>
-		$(document).ready(function() {
+		$(document).ready(function () {
 			// 페이지 로딩 시, Ajax로 /api/get_articles 요청을 보내서 content-section에 아티클을 추가합니다.
 			showArticle();
 		});
-		function showArticle(){
+		function showArticle() {
 			$.ajax({
 				type: 'GET',
 				url: '/api/get_articles',
-				success: function(response) {
+				success: function (response) {
 					var articles = response['articles'];
 					for (let i = 0; i < articles.length; i++) {
 						makeArticle(articles[i]["title"], articles[i]["content"], articles[i]["url"], articles[i]["category"], articles[i]["id"]);
@@ -44,34 +75,22 @@
 				}
 			});
 		};
-		function makeArticle(title, content, url, category, id){
+		function makeArticle(title, content, url, category, id) {
 			let temp_html = `
-			<div style='background-color:red;' class='content-box' onclick="location.href='/content/${id}'">
-				<h3>${title}</h3>
-				<p>${content}</p>
+			<div class='content-box mb-[30px] bg-white' onclick="location.href='/content?id=${id}'">
+				<h3 class="text-3xl font-bold">${title}</h3>
+				<p class="text-2xl">${content}</p>
 				<p>${url}</p>
 				<p>${category}</p>
+				<p style="display:none">${id}</p>
 			</div>
 				`
 			$("#content-section").append(temp_html);
 		}
-		 function content(id){
-		 	$.ajax({
-		 		type: 'POST',
-		 		url: '/api/content',
-		 		data: {'id_give': id},
-		 		success: function(response) {
-		 			if(response['result'] == 'success'){
-		 				alert('연결 완료')
-						window.location.href = '/content/' + id;
-		 			}
-		 		}
-		 	});
-	
-		 }
-			
-	
+
+
 	</script>
 
 </body>
+
 </html>
