@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>User Page</title>
+    <!-- CSS Stylesheet -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+    <div class="bg-gray-300 w-[500px] mx-auto mt-[50px] h-[700px] p-[20px] overflow-auto">
+        <header class="block h-[180px]">{{ u_info.nickname }}님의 page
+            <div id="user-info">
+                <div>
+                    <p class="hidden" id="r_id">{{u_info.id}}</p>
+                    <p class="text-1xl mt-[15px]">유저 닉네임 : {{u_info.nickname}}</p>
+                    <p class="text-1x1 my-[5px]">이메일 주소 : {{u_info.email}}</p>
+                    <p class="text-1x1 my-[5px]">자신있는 분야 : {{u_info.strength}}</p>
+                    <p class="text-1x1 my-[5px]">도움이 필요한 분야 : {{u_info.weakness}}</p>
+                </div>
+            </div>
+        </header>
+        <hr class="border-[3px]">
+        <main>
+            <p>{{ u_info.nickname }}님이 작성한 게시글</p>
+            {% for article in articles %}
+            <section id="my-posts" class="cursor-pointer block bg-white overflow-hidden rounded-xl my-[30px] w-[410px] h-[160px]">
+                <div class="content-box" onclick="location.href='/content?id={{ article.id }}'">
+                    <h3>제목 : {{ article.title }}</h3>
+                    <p>내용 : {{ article.content }}</p>
+                </div>
+            </section>
+            {% endfor %}
+        </main>
+        <hr class="border-[3px] mb-[10px]">
+        <div>
+            <p>문의 제목</p>
+            <input id="match_title" type="text" placeholder="문의 제목" class="w-[400px] h-[30px]">
+            <P>문의 내용</P>
+            <textarea id="match_content" placeholder="문의 내용" class="w-[400px] h-[100px] resize-none"></textarea>
+        </div>
+        <div>
+            <button class="bg-gray-300" onclick="location.href='/match'">뒤로 가기</button>
+            <button class="bg-green-300" onclick="sended()">매칭 요청</button>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function sended(){
+            
+            let title = $("#match_title").val();
+            let content = $("#match_content").val();
+            let r_id = $("#r_id").text();
+
+
+            $.ajax({
+                type:'POST',
+                url:'/api/m_accept',
+                data : {title: title, content: content, r_id: r_id},
+            })
+            alert("매칭 요청 완료!");
+            window.location.href='/home';
+        }
+    </script>
+</body>
+
+</html>

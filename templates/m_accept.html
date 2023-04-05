@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Login</title>
+    <title>Login</title>
+    <!-- jQuery 라이브러리 로드 -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- jQuery UI 라이브러리 로드 -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <form class="bg-gray-300 w-[400px] h-[550px] mx-auto mt-36 px-[20px] pt-5 rounded-lg">
+      <h1 class="text-left text-lg font-bold mb-[20px]">나에게 온 요청사항</h1>
+      <div class="mt-[60px]">
+      <label for="id" class="text-lg mb-10 font-bold">요청자</label>
+      <input class="bg-gray-400 h-10 w-[355px] rounded mb-[20px] indent-3" required>
+      <label for="password" class="text-lg mb-10 font-bold">요청사항</label>
+      <input required class="bg-gray-400 h-[200px] w-[355px] rounded mb-[50px] indent-3">
+      <button class="text-xl bg-blue-400 w-[152px] h-[50px] rounded-lg font-bold mr-12">수락하기</button>
+      <button class="text-xl bg-gray-400 w-[152px] h-[50px] rounded-lg font-bold">거절하기</button>
+    </div>
+    </form>
+   </body>
+  <div id="result"></div>

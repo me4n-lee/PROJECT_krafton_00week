@@ -153,7 +153,6 @@ def mypage():
 #     return render_template('mypage.html', user_id=user_id, user_nickname=user_nickname, articles=articles)
 
 
-
 @app.route('/write')
 def write():
     return render_template('write.html')
@@ -287,22 +286,57 @@ def search():
         
     return jsonify({'result': 'success', 'articles': result})
 
+@app.route('/match')
+@jwt_required_redirect
+def match():
+    return render_template('match.html')
+
 #추천 사용자 목록 가져오기
-@app.route('/api/recommend', methods=['GET'])
-def recommend():
+@app.route('/api/match', methods=['GET'])
+def matching():
     user_id = session.get('user_id')
-    user_nickname = session.get('user_nickname')
     user = db.user.find_one({'id': user_id})
     weakness = user['weakness']
-    matching = list(db.user.find({'strength' : weakness}, {'_id' : 0}))
-
-    return jsonify({'result': 'success', 'recommend': matching})
-
-#
+    m_list = list(db.user.find({'strength' : weakness}, {'_id' : 0}))
 
 
+    return jsonify({'result': 'success', 'm_list': m_list})
 
+#추천 사용자의 정보 보기
+@app.route('/m_info')
+def info():
+    # URL의 쿼리스트링에서 id 값을 추출
+    user_id = request.args.get('id')
 
+    # 추출한 id 값으로 DB에서 해당 article을 조회
+    articles = db.article.find({'user_id': user_id})
+    u_info = db.user.find_one({'id': user_id})
+
+    # m_info.html 페이지를 렌더링하고, 정보 전달
+    return render_template('m_info.html', articles=articles, u_info=u_info)
+
+@app.route('/api/m_accept', methods=['POST'])
+def post_match():
+    user_id = session.get('user_id')
+    # 1. 클라이언트로부터 데이터를 받기
+    title = request.form['title']  
+    content = request.form['content'] 
+    r_id = request.form['r_id']
+
+    matching={'title':title, 'content': content, 'r_id':r_id}
+
+    # 3. mongoDB에 데이터를 넣기
+    result = db.matching.insert_one(matching)
+
+    return jsonify({'result': 'success'})
+
+@app.route('/api/m_receive', methods=['GET'])
+def accept12():
+    user_id = session.get('user_id')
+    matches = list(db.matching.find({'r_id': user_id}, {'_id' : 0}))
+
+    print(matches)
+    return jsonify({'result': 'success', 'matches': matches})
 
 if __name__ == '__main__':  
    app.run('0.0.0.0',port=5000,debug=True)

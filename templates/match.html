@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Matching Page</title>
+
+  <!-- jQuery 라이브러리 로드 -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <!-- jQuery UI 라이브러리 로드 -->
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css">
+  <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+  <div class="bg-gray-300 w-[600px] h-[700px] mx-auto mt-36 px-[20px] pt-5 rounded-lg flex flex-row">
+    <div class="w-1/2 flex flex-col">
+      <div id="match_box" class="text-center text-4xl font-bold my-5 border-b-2 pb-2">매칭 추천!
+      </div>
+    </div>
+    <div class="w-1/2 flex flex-col">
+      <div id="r_match_box" class="text-center text-4xl font-bold my-5 border-b-2 pb-2">받은 매칭요청
+
+      </div>
+    </div>
+  </div>
+</body>
+
+<div id="result"></div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function () {
+    showList();
+    receiveList();
+  });
+
+  function showList() {
+    $.ajax({
+      type: 'GET',
+      url: '/api/match',
+      success: function (response) {
+        let list = response['m_list'];
+        for (let i = 0; i < list.length; i++) {
+          makeList(list[i]["nickname"], list[i]["strength"], list[i]["id"]);
+        }
+      }
+    })
+  }
+
+  function receiveList() {
+    $.ajax({
+      type: 'GET',
+      url: '/api/m_receive',
+      success: function (response) {
+        let list = response['matches'];
+        for (let i = 0; i < list.length; i++) {
+          makeList2(list[i]['title'], list[i]['content'])
+        }
+      }
+    })
+  }
+
+  function makeList(nick, str, id) {
+    let temp_html = `
+    <div class="cursor-pointer text-center h-20 w-[250px] rounded my-[20px] indent-3 bg-white mx-auto" onclick="location.href='/m_info?id=${id}'">
+      <h3 class="text-3xl font-bold"><span class="text-2xl">닉네임</span> : ${nick}</h3>
+		  <p class="text-2xl"><span class="text-xl">강점</span> : ${str}</p>
+    </div>
+    `
+    $("#match_box").append(temp_html);
+  }
+
+  function makeList2(nick, str) {
+    let temp_html = `
+    <div class="cursor-pointer text-center h-20 w-[250px] rounded my-[20px] indent-3 bg-white mx-auto">
+      <h3 class="text-3xl font-bold"><span class="text-2xl">제목</span> : ${nick}</h3>
+		  <p class="text-2xl"><span class="text-xl">내용</span> : ${str}</p>
+    </div>
+    `
+    $("#r_match_box").append(temp_html);
+  }
+</script>
+
+</html>
