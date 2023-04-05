@@ -140,6 +140,7 @@ def mypage():
     
     return render_template('mypage.html', user_id=user_id, user_nickname=user_nickname, articles=articles, user_info=user_info)
 
+
 # @app.route('/mypage')
 # @jwt_required
 # def mypage():
@@ -342,7 +343,7 @@ def accept12():
 
     return jsonify({'result': 'success', 'matches': matches})
 
-@app.route('/requesting')
+@app.route('/m_accept')
 def requesting():
     # URL의 쿼리스트링에서 id 값을 추출
     article_id = request.args.get('id')

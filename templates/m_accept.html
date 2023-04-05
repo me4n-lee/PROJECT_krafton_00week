@@ -1,29 +1,75 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Login</title>
-    <title>Login</title>
-    <!-- jQuery 라이브러리 로드 -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <!-- jQuery UI 라이브러리 로드 -->
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css">
-    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+<head>
+  <meta charset="utf-8">
+  <title>Login</title>
+  <!-- jQuery 라이브러리 로드 -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <script src="https://cdn.tailwindcss.com"></script>
-  </head>
-  <body>
-    <form class="bg-gray-300 w-[400px] h-[550px] mx-auto mt-36 px-[20px] pt-5 rounded-lg">
-      <h1 class="text-left text-lg font-bold mb-[20px]">나에게 온 요청사항</h1>
-      <div class="mt-[60px]">
-      <label for="id" class="text-lg mb-10 font-bold">요청자</label>
-      <input class="bg-gray-400 h-10 w-[355px] rounded mb-[20px] indent-3" required>
-      <label for="password" class="text-lg mb-10 font-bold">요청사항</label>
-      <input required class="bg-gray-400 h-[200px] w-[355px] rounded mb-[50px] indent-3">
-      <button class="text-xl bg-blue-400 w-[152px] h-[50px] rounded-lg font-bold mr-12">수락하기</button>
-      <button class="text-xl bg-gray-400 w-[152px] h-[50px] rounded-lg font-bold">거절하기</button>
+  <!-- jQuery UI 라이브러리 로드 -->
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css">
+  <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    function sendemail() {
+      let user_id = $("#user_id").text();
+      let article_id = $("#article_id").text();
+
+      $.ajax({
+        type: 'POST',
+        url: '/api/email',
+        data: {
+          article_id: article_id,
+          user_id: user_id
+        }
+      })
+
+      alert(user_id + " " + '님께 수락 이메일이 전송됐습니다!');
+      window.location.href = '/match';
+    }
+
+    function deletematch() {
+      let article_id = $("#article_id").text();
+
+      $.ajax({
+        type: 'POST',
+        url: '/api/delete',
+        data: {
+          article_id: article_id,
+        }
+      })
+
+      alert('해당 요청을 거절했습니다.');
+      window.location.href = '/match';
+    }
+
+  </script>
+</head>
+
+<body class="bg-black flex justify-center items-center h-screen">
+  <div class="bg-gray-300 w-[500px] h-[720px] mx-auto px-[20px] pt-5 rounded-lg shadow-lg" style="box-shadow: 0 10px 20px rgba(130, 130, 130, 0.3), /* 위 */
+  0 -10px 20px rgba(130, 130, 130, 0.3), /* 아래 */
+  -10px 0 20px rgba(130, 130, 130, 0.3), /* 왼쪽 */
+  10px 0 20px rgba(130, 130, 130, 0.3) /* 오른쪽 */">
+    <p id="article_id" class="hidden">{{article.new_id}}</p>
+    <h1 class="text-3xl mb-[10px] font-bold block">나에게 온 요청사항</h1>
+    <div class="mt-[20px]">
+      <h2 class="text-2xl mb-[10px] font-bold block">요청자</h2>
+      <p id="user_id" class="mb-[10px] bg-gray-400 rounded-lg w-[450px] h-[50px] leading-[50px] indent-[10px]">{{article.id}}</p>
+      <h2 class="text-2xl mb-[10px] font-bold block">제목</h2>
+      <p class="mb-[10px] bg-gray-400 rounded-lg w-[450px] h-[50px] leading-[50px] indent-[10px]">{{article.title}}</p>
+      <h2 class="text-2xl mb-[10px] font-bold block">내용</h2>
+      <p class="mb-[20px] bg-gray-400 rounded-lg w-[450px] h-[300px] leading-[50px] indent-[10px] overflow-hidden">
+        {{article.content}}</p>
+      <div class="flex justify-between mx-[30px]">
+        <button class="text-xl bg-green-400 w-[140px] h-[40px] rounded-lg font-bold shadow-xl"
+          onclick="sendemail()">Confirm</button>
+        <button class="text-xl bg-gray-400 w-[140px] h-[40px] rounded-lg font-bold shadow-xl"
+          onclick="deletematch()">Cancel</button>
+      </div>
     </div>
-    </form>
-   </body>
-  <div id="result"></div>
+  </div>
+</body>
+<div id="result"></div>

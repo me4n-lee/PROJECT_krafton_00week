@@ -14,19 +14,55 @@
 
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
+<style>
+  .bg-gray-300 {
+    /* 가운데 선 스타일 */
+    position: relative;
+    display: flex;
+  }
 
-<body>
-  <div class="bg-gray-300 w-[600px] h-[700px] mx-auto mt-36 px-[20px] pt-5 rounded-lg flex flex-row">
-    <div class="w-1/2 flex flex-col">
-      <div id="match_box" class="text-center text-4xl font-bold my-5 border-b-2 pb-2">매칭 추천!
+  .bg-gray-300::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 1px;
+    height: 100%;
+    background-color: #fff;
+    transform: translateX(-50%);
+  }
+
+  ::-webkit-scrollbar {
+		display: none;
+	}
+
+</style>
+
+<body class="bg-black flex justify-center items-center h-screen">
+  <div class="float-left">
+    <header class="block overflow-hidden mb-[20px] mt-[20px] mx-auto">
+      <div class="float-left">
+        <button class="bg-green-400 text-xl rounded-full w-[50px] h-[50px] shadow-sm" style="box-shadow: 
+      0 10px 20px rgba(3, 210, 128, 0.2), /* 위 */
+      0 -10px 20px rgba(3, 210, 128, 0.2), /* 아래 */
+      -10px 0 20px rgba(3, 210, 128, 0.2), /* 왼쪽 */
+      10px 0 20px rgba(3, 210, 128, 0.2) /* 오른쪽 */" type="submit" name="mypage" id="mypage"
+          onclick="location.href='/home'">
+          H
+        </button>
+      </div>
+    </header>
+    <div class="bg-gray-300 w-[800px] h-[720px] mx-auto pt-2 rounded-lg flex flex-row">
+      <div id="match_box" class="w-1/2 flex flex-col">
+        <div class="text-center text-4xl font-bold my-5 border-b-2 pb-4">매칭 추천!
+        </div>
+      </div>
+      <div id="r_match_box" class="w-1/2 flex flex-col">
+        <div class="text-center text-4xl font-bold my-5 border-b-2 pb-4">받은 매칭요청
+
+        </div>
       </div>
     </div>
-    <div class="w-1/2 flex flex-col">
-      <div id="r_match_box" class="text-center text-4xl font-bold my-5 border-b-2 pb-2">받은 매칭요청
-
-      </div>
-    </div>
-  </div>
 </body>
 
 <div id="result"></div>
@@ -58,7 +94,7 @@
       success: function (response) {
         let list = response['matches'];
         for (let i = 0; i < list.length; i++) {
-          makeList2(list[i]['title'], list[i]['content'])
+          makeList2(list[i]['title'], list[i]['content'], list[i]['new_id'])
         }
       }
     })
@@ -66,7 +102,7 @@
 
   function makeList(nick, str, id) {
     let temp_html = `
-    <div class="cursor-pointer text-center h-20 w-[250px] rounded my-[20px] indent-3 bg-white mx-auto" onclick="location.href='/m_info?id=${id}'">
+    <div class="cursor-pointer text-center h-20 w-[350px] rounded-lg my-[20px] indent-3 bg-white mx-auto" onclick="location.href='/m_info?id=${id}'">
       <h3 class="text-3xl font-bold"><span class="text-2xl">닉네임</span> : ${nick}</h3>
 		  <p class="text-2xl"><span class="text-xl">강점</span> : ${str}</p>
     </div>
@@ -74,9 +110,9 @@
     $("#match_box").append(temp_html);
   }
 
-  function makeList2(nick, str) {
+  function makeList2(nick, str, id) {
     let temp_html = `
-    <div class="cursor-pointer text-center h-20 w-[250px] rounded my-[20px] indent-3 bg-white mx-auto">
+    <div class="cursor-pointer text-center h-20 w-[350px] rounded-lg my-[20px] indent-3 bg-white mx-auto" onclick="location.href='/m_accept?id=${id}'">
       <h3 class="text-3xl font-bold"><span class="text-2xl">제목</span> : ${nick}</h3>
 		  <p class="text-2xl"><span class="text-xl">내용</span> : ${str}</p>
     </div>

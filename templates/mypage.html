@@ -8,22 +8,21 @@
 	<script src="https://cdn.tailwindcss.com"></script>
 </head>
 <style>
-	::-webkit-scrollbar{
-		display:none;
+	::-webkit-scrollbar {
+		display: none;
 	}
 </style>
 
-<body class = "bg-black flex justify-center items-center h-screen">
+<body class="bg-black flex justify-center items-center h-screen">
 	<div class="float-left">
 		<header class="block overflow-hidden mb-[20px] mt-[20px]">
 			<div class="float-left">
-				<button class="bg-green-400 text-xl rounded-full w-[50px] h-[50px] shadow-sm"
-				style="box-shadow: 
+				<button class="bg-green-400 text-xl rounded-full w-[50px] h-[50px] shadow-sm" style="box-shadow: 
 				0 10px 20px rgba(3, 210, 128, 0.2), /* 위 */
 				0 -10px 20px rgba(3, 210, 128, 0.2), /* 아래 */
 				-10px 0 20px rgba(3, 210, 128, 0.2), /* 왼쪽 */
-				10px 0 20px rgba(3, 210, 128, 0.2) /* 오른쪽 */" type="submit" name="mypage"
-					id="mypage" onclick="location.href='/home'">
+				10px 0 20px rgba(3, 210, 128, 0.2) /* 오른쪽 */" type="submit" name="mypage" id="mypage"
+					onclick="location.href='/home'">
 					H
 				</button>
 			</div>
@@ -34,21 +33,26 @@
 		10px 0 20px rgba(130, 130, 130, 0.3) /* 오른쪽 */">
 			<div id="user-info" class="block h-[180px] bg-white mb-[30px] rounded-lg">
 				<div>
-					<p class="text-1xl mt-[15px] p-[10px]">유저 닉네임 : {{ user_nickname }}</p>
-					{% for user_in in user_info %}
-					<p class="text-1x1 my-[5px] p-[10px]">Email address : {{ user_in.email }}</p>
-					<p class="text-1x1 my-[5px] p-[10px]">잘하는 분야 : {{ user_in.strength }}</p>
-					<p class="text-1x1 my-[5px] p-[10px]">못하는 분야 : {{ user_in.weakness }}</p>
-					{% endfor %}
+					<div class="float-left pt-[40px] h-[180px] px-[20px] border-r-2">
+						<p class="text-1xl mt-[15px] p-[10px]"><span class="text-3xl font-bold">{{ user_nickname }}</span> 님의 페이지</p>
 					</div>
+					<div class="float-left pt-[8px]">
+						{% for user_in in user_info %}
+						<p class="text-1x1 my-[5px] p-[10px]"><span class="font-bold text-xl">Email address :</span> <span class="text-xl">{{ user_in.email }}</span></p>
+						<p class="text-1x1 my-[5px] p-[10px]"><span class="font-bold text-xl">자신있는 분야 :</span> <span class="text-xl">{{ user_in.strength }}</span></p>
+						<p class="text-1x1 my-[5px] p-[10px]"><span class="font-bold text-xl">도움이 필요한 분야 :</span> <span class="text-xl">{{ user_in.weakness }}</span></p>
+						{% endfor %}
+					</div>
+				</div>
 			</div>
 			<div>
 				<p class="mb-[30px] text-2xl text-center">--------{{ user_id }}님이 작성한 게시글--------</p>
 				<section id="my-posts" class="cursor-pointer content-box rounded-lg">
 					{% for article in articles %}
-					<div class="content-box bg-white mb-[20px]" onclick="location.href='/correction?id={{ article.id }}'">
-						<h3 class="p-[10px]">{{ article.title }}</h3>
-						<p class="p-[10px]"">{{ article.content }}</p>
+					<div class="content-box bg-white mb-[20px] rounded-lg overflow-hidden"
+						onclick="location.href='/correction?id={{ article.id }}'">
+						<h3 class="p-[10px] font-bold text-2xl float-left border-r-2">제목 : {{ article.title }}</h3>
+						<p class="p-[10px] text-xl float-left">내용 : {{ article.content }}</p>
 					</div>
 					{% endfor %}
 				</section>

@@ -17,8 +17,8 @@
 <body class="bg-black flex justify-center items-center h-screen">
 	<div class="w-[1200px] mx-auto overflow-hidden">
 		<header class="block overflow-hidden mb-[20px] mt-[20px]">
-			<h1 class="text-left text-3xl float-left">HOME</h1>
-			<div class="float-right">
+			<h1 class="text-left text-3xl float-left"><img src="{{ url_for('static', filename='logo.png') }}" width="180"></h1>
+			<div class="float-right mt-[60px]">
 				<button class="bg-green-400 text-xl rounded-full w-[50px] h-[50px] shadow-sm" style="box-shadow: 
 				0 10px 20px rgba(3, 210, 128, 0.2), /* 위 */
 				0 -10px 20px rgba(3, 210, 128, 0.2), /* 아래 */
@@ -86,7 +86,7 @@
 							<input type="text" placeholder="Search..." class="indent-[10px] bg-gray-400 rounded-lg w-[500px] h-[50px] shadow-lg"
 								id="searching"
 								>
-							<button onclick="search()" class="bg-green-300 float-right h-[50px] mr-[10px] w-[80px] rounded shadow-lg">Search</button>
+							<button onclick="search()" class="bg-green-300 float-right h-[50px] ml-[10px] w-[90px] rounded shadow-lg font-bold text-xl">Search</button>
 						</div>
 					</div>
 				</div>
@@ -113,53 +113,6 @@
 	</div>
 	<!-- JavaScript -->
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-
-	<!-- <script>
-		$(document).ready(function () {
-			// 페이지 로딩 시, Ajax로 /api/get_articles 요청을 보내서 content-section에 아티클을 추가합니다.
-			showArticle();
-		});
-		function showArticle() {
-			$.ajax({
-				type: 'GET',
-				url: '/api/get_articles',
-				beforeSend: function (xhr) {
-					var token = getCookie('access_token');
-					if (token) {
-						xhr.setRequestHeader('Authorization', 'Bearer ' + token);
-					}
-				success: function (response) {
-					var articles = response['articles'];
-					for (let i = 0; i < articles.length; i++) {
-						makeArticle(articles[i]["title"], articles[i]["content"], articles[i]["url"], articles[i]["category"], articles[i]["id"]);
-					}
-				}
-			});
-		};
-		function makeArticle(title, content, url, category, id) {
-			let temp_html = `
-			<div class='content-box mb-[30px] bg-white' onclick="location.href='/content?id=${id}'">
-				<h3 class="text-3xl font-bold">${title}</h3>
-				<p class="text-2xl">${content}</p>
-				<p>${url}</p>
-				<p>${category}</p>
-				<p style="display:none">${id}</p>
-			</div>
-				`
-			$("#content-section").append(temp_html);
-		}
-		function deleteCookie(name) {
-			document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/';
-		}
-
-		function logout() {
-			deleteCookie('access_token'); // 토큰 삭제
-			window.location.href = '/'; // 로그인 페이지로 이동
-		}
-
-	</script> -->
-
 
 	<script>
 		$(document).ready(function () {
@@ -241,7 +194,7 @@
 
 		function makeArticle(title, content, url, category, id) {
 			let temp_html = `
-				<div class='cursor-pointer content-box mb-[30px] bg-white' rounded-lg shadow-lg onclick="location.href='/content?id=${id}'">
+				<div class='rounded-lg cursor-pointer content-box mb-[30px] bg-white' rounded-lg shadow-lg onclick="location.href='/content?id=${id}'">
 					<h3 class="ml-[5px] mt-[5px] text-2xl font-bold">Title : ${title}</h3>
 					<p class="ml-[5px] mt-[5px] text-xl">Content : ${content}</p>
 					<p class="ml-[5px] mt-[5px]">URL : ${url}</p>
