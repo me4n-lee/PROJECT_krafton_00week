@@ -74,16 +74,29 @@ def signup():
 @app.route('/api/signup', methods=['POST'])
 def post_signup():
     # 1. 클라이언트로부터 데이터를 받기
-    id_receive = request.form['id_give']  # 클라이언트로부터 url을 받는 부분
-    password_receive = request.form['password_give']  # 클라이언트로부터 comment를 받는 부분
+    id_receive = request.form['id_give']  
+    password_receive = request.form['password_give'] 
     check_password_receive = request.form['check_password_give']
     nickname_receive = request.form['nickname_give']
     name_receive = request.form['name_give']
-
-    users={'id':id_receive, 'password': password_receive, 'check_password':check_password_receive, 'nickname':nickname_receive,'name':name_receive}
+    email_receive = request.form['email_give']
+    strength_receive = request.form['strength_give']
+    weakness_receive = request.form['weakness_give']
+    
+    # 2. 받은 데이터를 딕셔너리 형태로 만들기
+    user = {
+        'id': id_receive, 
+        'password': password_receive, 
+        'check_password': check_password_receive, 
+        'nickname': nickname_receive,
+        'name': name_receive, 
+        'email' : email_receive,
+        'strength' : strength_receive,
+        'weakness' : weakness_receive
+    }
 
     # 3. mongoDB에 데이터를 넣기
-    db.user.insert_one(users)
+    db.user.insert_one(user)
 
     return jsonify({'result': 'success'})
 
@@ -243,6 +256,47 @@ def update_article():
     else:
         return 'Fail to update article'
 
+@app.route('/api/type', methods=['GET'])
+def type():
+    # POST 요청에서 데이터 추출
+    type = request.args.get('type_give')
+    category = list(db.article.find({'category' : type}, {'_id' : 0}))
+
+    return jsonify({'result': 'success', 'category': category})
+
+@app.route('/api/search', methods=['GET'])
+def search():
+    data = request.args.get('data_give')
+    
+    articles = db.article.find({'$or': [
+        {'title': {'$regex': data}},
+        {'content': {'$regex': data}},
+        {'category': {'$regex': data}},
+        {'id' : {'$regex':data}}
+    ]})
+    
+    result = []
+    for article in articles:
+        result.append({
+            'title': article['title'],
+            'content': article['content'],
+            'url': article['url'],
+            'category': article['category'],
+            'id': article['id']
+        })
+        
+    return jsonify({'result': 'success', 'articles': result})
+
+#추천 사용자 목록 가져오기
+@app.route('/api/recommend', methods=['GET'])
+def recommend():
+    user_id = session.get('user_id')
+    user_nickname = session.get('user_nickname')
+    user = db.user.find_one({'id': user_id})
+    weakness = user['weakness']
+    matching = list(db.user.find({'strength' : weakness}, {'_id' : 0}))
+
+    return jsonify({'result': 'success', 'recommend': matching})
 
 #
 

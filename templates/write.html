@@ -8,6 +8,26 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
+    $(document).ready(function () {
+        $('#b_category').on('change', function () {
+            if ($(this).val() === 'category1') {
+                $("#post-category").prop('disabled', false);
+                $("#post-category").html('<option value="HTML">HTML</option><option value="CSS">CSS</option><option value="JAVASCRIPT">JAVASCRIPT</option>');
+            } else if ($(this).val() === 'category2') {
+                $("#post-category").prop('disabled', false);
+                $("#post-category").html('<option value="PYTHON">PYTHON</option><option value="JAVA">JAVA</option><option value="JSP">JSP</option>');
+            } else if ($(this).val() === 'category3') {
+                $("#post-category").prop('disabled', false);
+                $("#post-category").html('<option value="FLASK">FLASK</option>');
+            } else if ($(this).val() === 'category4') {
+                $("#post-category").prop('disabled', false);
+                $("#post-category").html('<option value="MONGODB">MONGODB</option>');
+            } else {
+                $("#post-category").prop('disabled', true);
+                $("#post-category").html('<option value=""></option>');
+            }
+        });
+    });
     function post_article() {
         let title = $("#post-title").val();
         let url = $("#post-url").val();
@@ -40,13 +60,15 @@
     </header>
     <div class="bg-gray-300 w-[800px] h-[720px] mx-auto px-[20px] pt-5 rounded-lg">
         <main>
-            <label for="category" class="text-2xl mb-[10px] font-bold block">카테고리</label>
-            <select id="post-category" name="category" class="h-10 rounded mb-[20px] indent-3 w-1/4">
-                <option value="category1">Category 1</option>
-                <option value="category2">Category 2</option>
-                <option value="category3">Category 3</option>
+            <label for="b_category" class="text-2xl mb-[10px] font-bold block">카테고리</label>
+            <select id="b_category" name="b_category" class="h-10 rounded mb-[20px] indent-3 w-1/4">
+                <option value="category0">카테고리 선택</option>
+                <option value="category1">프론트엔드</option>
+                <option value="category2">백엔드</option>
+                <option value="category3">서버</option>
+                <option value="category4">데이터베이스</option>
             </select>
-            <select name="" id="" disabled class="h-10 rounded mb-[20px] indent-3 w-2/5">
+            <select name="category" id="post-category" disabled class="h-10 rounded mb-[20px] indent-3 w-2/5">
                 <option value=""></option>
             </select>
             <label for="title" class="text-2xl mb-[10px] font-bold block">제목</label>
