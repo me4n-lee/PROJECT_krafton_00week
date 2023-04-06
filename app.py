@@ -13,7 +13,7 @@ jwt = JWTManager(app)
 
 # MongoDB 연결
 client = MongoClient('localhost', 27017)
-db = client.test02
+db = client.zeroweek
 
 #인증을 확인하고 인증되지 않은 사용자를 로그인 페이지로 리디렉션하는 데코레이터
 # def jwt_required_redirect(fn):
@@ -139,7 +139,6 @@ def mypage():
     user_info = db.user.find({'id': user_id})
     
     return render_template('mypage.html', user_id=user_id, user_nickname=user_nickname, articles=articles, user_info=user_info)
-
 
 # @app.route('/mypage')
 # @jwt_required
@@ -343,7 +342,7 @@ def accept12():
 
     return jsonify({'result': 'success', 'matches': matches})
 
-@app.route('/m_accept')
+@app.route('/requesting')
 def requesting():
     # URL의 쿼리스트링에서 id 값을 추출
     article_id = request.args.get('id')
