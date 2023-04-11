@@ -5,6 +5,8 @@ from flask_jwt_extended import  decode_token, JWTManager, jwt_required, get_jwt_
 from functools import wraps
 import smtplib
 from email.mime.text import MIMEText
+import os
+from dotenv import load_dotenv
 
 app = Flask(__name__)
 app.secret_key = 'kraftonjungle'
@@ -373,19 +375,21 @@ def sendEmail():
 
     # TLS 보안 시작
     s.starttls()
-
+    EMAIL = os.getenv('EMAIL')
+    PASSWORD = os.getenv('PASSWORD')
     #로그인 인증
-    s.login('hawk58927@gmail.com', 'agqhlglabmfjihpo')
+    s.login(EMAIL, PASSWORD)
+    
 
     #보낼 메시지 설정
     msg = MIMEText(real_id + " " + "님이" + matching_title['title'] + " " + "에 대한 요청을 수락하셨습니다!" + email_from['email'] + " " +  "으로 자세한 내용을 보내주세요.")
     msg['Subject'] = matching_title['title'] + " " + '에 대한 매칭이 성사됐습니다!'
-    msg['From'] = 'hawk58927@gmail.com'
+    msg['From'] = EMAIL
     msg['To'] = email_to['email']
 
 
     #메일보내기
-    s.sendmail("hawk58927@gmail.com", email_to['email'], msg.as_string())
+    s.sendmail(EMAIL, email_to['email'], msg.as_string())
 
     #세션 종료
     s.quit()
